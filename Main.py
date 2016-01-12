@@ -20,6 +20,31 @@ LED_COUNT = WIDTH * HEIGHT  #Is this needed?
 
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 
+@skywriter.move()
+def move(x, y, z):
+    global lastLocation
+    #r = int(255 * (z / 0.7))
+    step = 25 - (int(25 * (z)) + 1)
+    print(z, step)
+    newLocation = [x, y, step]
+    #print newLocation
+    if newLocation != lastLocation:
+        q.put(newLocation)
+        lastLocation = newLocation
+
+
+strip.begin()
+#pulse(q)
+
+#Lets try a thread...
+t = threading.Thread(target=pulse, args = (q,))
+t.daemon = True
+t.start()
+
+while True:
+    signal.pause() #wait for intetrrupt
+    #Event.wait()
+
 #Take move from skywriter
 #import move from skywriter and input into x,y,z co-ordinates
 #Give option for mood, create an input of 3 mechanical buttons
