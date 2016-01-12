@@ -20,6 +20,14 @@ LED_COUNT = WIDTH * HEIGHT  #Is this needed?
 
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 
+global lastLocation
+#global lastStep
+
+#lastStep = 0
+lastLocation = [0,0,0] #x,y, step
+
+q = Queue.Queue()
+
 @skywriter.move()
 def move(x, y, z):
     global lastLocation
