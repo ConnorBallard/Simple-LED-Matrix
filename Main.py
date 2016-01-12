@@ -45,7 +45,7 @@ strip.begin()
 #pulse(q)
 
 #Lets try a thread...
-t = threading.Thread(target=pulse, args = (q,))
+t = threading.Thread(target=pulse, args = (q,strip, WIDTH, HEIGHT))
 t.daemon = True
 t.start()
 
