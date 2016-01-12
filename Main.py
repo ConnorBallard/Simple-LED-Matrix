@@ -1,6 +1,6 @@
 #This should be a short version where i can just call functions
 
-import functions #Hopefully this imports everything from the fuctions file.
+from functions import * #Hopefully this imports everything from the fuctions file.
 import time
 import signal
 from neopixel import *
