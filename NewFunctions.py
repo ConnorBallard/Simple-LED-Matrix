@@ -1,6 +1,7 @@
 import skywriter
 import signal
 from neopixel import *
+import math
 
 LED_PIN        = 18      # GPIO pin connected to the pixels (must support PWM!).
 LED_FREQ_HZ    = 800000  # Just leave it at this, normally works!
