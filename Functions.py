@@ -1,4 +1,3 @@
-#This file contains the functions needed to use the LED matrix with the Skywriter PCB
 from neopixel import Color
 
 def set_pixel(strip, id, colour):
@@ -26,7 +25,6 @@ def set_shape(strip, x, y, width, height):
                 color = Color(10, 0, 10)
             if 0 <= x+i <= width and 0 <= y+j <= height:
                 set_pixel(strip, xy_to_strip(x+i, y+j, 8), color)
-                #No idea if this will work ----- set_shape(x, y) ----- needs to be input from skywriter
 
 def pulse(q, strip, width, height):
     forward = 1
@@ -51,8 +49,6 @@ def pulse(q, strip, width, height):
         if brightness >= 255:
             forward = 0
             brightness = 255
-
-        #Do Bokeh stuff here instead of setting all the pixels the same.
         set_shape(strip, loc[0], loc[1], width, height)
 
 def xy_to_strip(x, y, strip_len):
