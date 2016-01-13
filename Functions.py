@@ -1,60 +1,59 @@
-#This should be a short version where i can just call functions
+#This file contains the functions needed to use the LED matrix with the Skywriter PCB
+from neopixel import Color
 
-from Functions.py import * #Hopefully this imports everything from the fuctions file.
-import time
-import signal
-from neopixel import *
-import threading
-import Queue
-import skywriter
+def set_pixel(strip, id, colour):
+	if id>-10 and id<96:
+		strip.setPixelColor(id, colour)
+		print 'id {}, {} '.format(id, colour)
+	else:
+		print 'id {}, {} out of range'.format(id, colour)
 
-# Settings for your matrix and Pins:
-LED_PIN        = 18      # GPIO pin connected to the pixels (must support PWM!).
-LED_FREQ_HZ    = 800000  # Just leave it at this, normally works!
-LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
-LED_BRIGHTNESS = 50      # from 0 to 255, keep it low, you don't want to be blinded
-LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
-WIDTH          = 12      # How ever many pixels wide your grid is
-HEIGHT         = 8       # How ever many pixels high your grid is
-LED_COUNT = WIDTH * HEIGHT  #Is this needed?
+def set_shape(strip, x, y, width, height):
+    for i in (-3, -2, -1, 0, 1, 2, 3):
+        for j in (-3, -2, -1, 0, 1, 2, 3):
+            mode = abs(i)+ abs(j)
+            if mode == 0:
+                color = Color(250, 200, 200)
+            if mode == 1:
+                color = Color(250, 0, 100)
+            if mode == 2:
+                color = Color(100, 0, 100)
+            if mode == 3:
+                color = Color(50, 0, 50)
+            if mode == 4:
+                color = Color(25, 0, 25)
+            if mode == 5:
+                color = Color(10, 0, 10)
+            if 0 <= x+i <= width and 0 <= y+j <= height:
+                set_pixel(strip, xy_to_strip(x+i, y+j, 8), color)
+                #No idea if this will work ----- set_shape(x, y) ----- needs to be input from skywriter
 
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
+def pulse(q, strip, width, height):
+    forward = 1
+    brightness = 0
+    loc = [0, 0, 0] #loc[0] = X, loc[1] = Y, loc[2] = STEP
+    color = Color(0, 0, 0)
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, color)
+    strip.show()
 
-global lastLocation
-#global lastStep
+    while True: #This loops every 10ms, so led matrix is updated smoothly.
+        if q.empty() is False:
+            loc = q.get_nowait()
+            #print loc
+        if forward is 1:
+            brightness = brightness + loc[2]
+        else:
+            brightness = brightness - loc[2]
+        if brightness <= 0:
+            forward = 1
+            brightness = 0
+        if brightness >= 255:
+            forward = 0
+            brightness = 255
 
-#lastStep = 0
-lastLocation = [0,0,0] #x,y, step
+        #Do Bokeh stuff here instead of setting all the pixels the same.
+        set_shape(strip, loc[0], loc[1], width, height)
 
-q = Queue.Queue()
-
-@skywriter.move()
-def move(x, y, z):
-    global lastLocation
-    #r = int(255 * (z / 0.7))
-    step = 25 - (int(25 * (z)) + 1)
-    print(z, step)
-    newLocation = [x, y, step]
-    #print newLocation
-    if newLocation != lastLocation:
-        q.put(newLocation)
-        lastLocation = newLocation
-
-
-strip.begin()
-#pulse(q)
-
-#Lets try a thread...
-t = threading.Thread(target=pulse, args = (q,strip, WIDTH, HEIGHT))
-t.daemon = True
-t.start()
-
-while True:
-    signal.pause() #wait for intetrrupt
-    #Event.wait()
-
-#Take move from skywriter
-#import move from skywriter and input into x,y,z co-ordinates
-#Give option for mood, create an input of 3 mechanical buttons
-    #Sad, Happy, excited
-      #each mood has it's own colour and and key signature
+def xy_to_strip(x, y, strip_len):
+    return x * strip_len + y
