@@ -20,6 +20,9 @@ def set_pixel(strip, id, colour):
 	else:
 		print 'id {}, {} out of range'.format(id, colour)
 
+def xy_to_strip(x, y, strip_len):
+	return x * strip_len + y
+
 def set_shape(strip, x, y, width, height):
     for i in (-3, -2, -1, 0, 1, 2, 3):
         for j in (-3, -2, -1, 0, 1, 2, 3):
