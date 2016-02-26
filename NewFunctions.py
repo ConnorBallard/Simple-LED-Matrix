@@ -30,17 +30,17 @@ def set_shape(strip, x, y, width, height):
             mode = abs(i)+ abs(j)
             if mode == 0:
                 color = Color(250, 200, 200)
-            if mode == 1:
+            elif mode == 1:
                 color = Color(250, 0, 100)
-            if mode == 2:
+            elif mode == 2:
                 color = Color(100, 0, 100)
-            if mode == 3:
+            elif mode == 3:
                 color = Color(50, 0, 50)
-            if mode == 4:
+            elif mode == 4:
                 color = Color(25, 0, 25)
-            if mode == 5:
+            elif mode == 5:
                 color = Color(10, 0, 10)
-            if 0 <= x+i <= width and 0 <= y+j <= height:
+            elif 0 <= x+i <= width and 0 <= y+j <= height:
                 set_pixel(strip, xy_to_strip(x+i, y+j, 8), color)
 
 def xy_to_strip(x, y, strip_len):
