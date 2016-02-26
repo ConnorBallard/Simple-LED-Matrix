@@ -14,15 +14,15 @@ LED_COUNT      = 96      # Total number of LEDs
 
 strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 
+def xy_to_strip(x, y, strip_len):
+	return x * strip_len + y
+
 def set_pixel(strip, id, color):
 	if id>-10 and id<96:
 		strip.setPixelColor(id, color)
 		print 'id {}, {} '.format(id, color)
 	else:
 		print 'id {}, {} out of range'.format(id, color)
-
-def xy_to_strip(x, y, strip_len):
-	return x * strip_len + y
 
 def set_shape(strip, x, y, width, height):
     for i in (-3, -2, -1, 0, 1, 2, 3):
