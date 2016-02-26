@@ -42,6 +42,8 @@ def set_shape(strip, x, y, width, height):
                 color = Color(10, 0, 10)
             elif 0 <= x+i <= width and 0 <= y+j <= height:
                 set_pixel(strip, xy_to_strip(x+i, y+j, 8), color)
+       	else:
+		print 'Problem with Bokeh'
 
 def xy_to_strip(x, y, strip_len):
     return x * strip_len + y
