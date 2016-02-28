@@ -45,9 +45,6 @@ def set_shape(strip, x, y, width, height):
        	else:
 		print 'Problem with Bokeh'
 
-def xy_to_strip(x, y, strip_len):
-    return x * strip_len + y
-
 #This prints out the location of the skywriter
 @skywriter.move()
 def move(x, y, z):
