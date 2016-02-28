@@ -17,31 +17,31 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 def xy_to_strip(x, y, strip_len):
 	return x * strip_len + y
 
-def set_pixel(strip, id, color):
+def set_pixel(strip, id, Color):
 	if id>-10 and id<96:
-		strip.setPixelColor(id, color)
-		print 'id {}, {} '.format(id, color)
+		strip.setPixelColor(id, Color)
+		print 'id {}, {} '.format(id, Color)
 	else:
-		print 'id {}, {} out of range'.format(id, color)
+		print 'id {}, {} out of range'.format(id, Color)
 
 def set_shape(strip, x, y, width, height):
     for i in (-3, -2, -1, 0, 1, 2, 3):
         for j in (-3, -2, -1, 0, 1, 2, 3):
             mode = abs(i)+ abs(j)
             if mode == 0:
-                color = Color(250, 200, 200)
+                Color = Color(250, 200, 200)
             elif mode == 1:
-                color = Color(250, 0, 100)
+                Color = Color(250, 0, 100)
             elif mode == 2:
-                color = Color(100, 0, 100)
+                Color = Color(100, 0, 100)
             elif mode == 3:
-                color = Color(50, 0, 50)
+                Color = Color(50, 0, 50)
             elif mode == 4:
-                color = Color(25, 0, 25)
+                Color = Color(25, 0, 25)
             elif mode == 5:
-                color = Color(10, 0, 10)
+                Color = Color(10, 0, 10)
             elif 0 <= x+i <= width and 0 <= y+j <= height:
-                set_pixel(strip, xy_to_strip(x+i, y+j, 8), color)
+                set_pixel(strip, xy_to_strip(x+i, y+j, 8), Color)
        	else:
 		print 'Problem with Bokeh'
 
@@ -50,7 +50,7 @@ def xy_to_strip(x, y, strip_len):
 
 #This prints out the location of the skywriter
 @skywriter.move()
-    def move(x, y, z):
+def move(x, y, z):
         print(x, y, z)
         tx = int(math.ceil(x * WIDTH))
         # if up and down are reversed remove the "grid_height - " bit
