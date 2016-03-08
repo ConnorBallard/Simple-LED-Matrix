@@ -17,7 +17,7 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 def xy_to_strip(x, y, strip_len):
 	return x * strip_len + y
 
-def outputColor(red, green, blue):
+#def outputColor(red, green, blue):
 
 def set_pixel(strip, id, Color):
 	if id>-10 and id<96:
