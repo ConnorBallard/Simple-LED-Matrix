@@ -17,12 +17,7 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 def xy_to_strip(x, y, strip_len):
 	return x * strip_len + y
 
-#def Color(red, green, blue):
-#	"""Convert the provided red, green, blue color to a 24-bit color value.
-#	Each color component should be a value 0-255 where 0 is the lowest intensity
-#	and 255 is the highest intensity.
-#	"""
-#	return (red << 16) | (green << 8) | blue
+def outputColor(red, green, blue):
 
 def set_pixel(strip, id, Color):
 	if id>-10 and id<96:
@@ -36,17 +31,17 @@ def set_shape(strip, x, y, width, height):
         for j in (-3, -2, -1, 0, 1, 2, 3):
             mode = abs(i)+ abs(j)
             if mode == 0:
-                Color = Color(250, 200, 200)
+                Color = outputColor(250, 200, 200)
             elif mode == 1:
-                Color = Color(250, 0, 100)
+                Color = outputColor(250, 0, 100)
             elif mode == 2:
-                Color = Color(100, 0, 100)
+                Color = outputColor(100, 0, 100)
             elif mode == 3:
-                Color = Color(50, 0, 50)
+                Color = outputColor(50, 0, 50)
             elif mode == 4:
-                Color = Color(25, 0, 25)
+                Color = outputColor(25, 0, 25)
             elif mode == 5:
-                Color = Color(10, 0, 10)
+                Color = outputColor(10, 0, 10)
             elif 0 <= x+i <= width and 0 <= y+j <= height:
                 set_pixel(strip, xy_to_strip(x+i, y+j, 8), Color)
        	else:
